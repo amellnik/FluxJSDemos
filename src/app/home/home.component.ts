@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as BSON from 'bson';
 
-import * as flux from '../../assets/flux'
 
 @Component({
   selector: 'app-home',

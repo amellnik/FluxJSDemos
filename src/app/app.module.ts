@@ -7,8 +7,12 @@ import { BSON } from "bson";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { FmnistMlpComponent } from './fmnist-mlp/fmnist-mlp.component';
+import { TrivialComponent } from './trivial/trivial.component';
 
 const appRoutes: Routes = [
+  { path: 'trivial', component: TrivialComponent },
+  { path: 'fmnist-mlp', component: FmnistMlpComponent },
   { path: '**', component: HomeComponent }
 ];
 
@@ -16,12 +20,14 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    FmnistMlpComponent,
+    TrivialComponent
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: false } 
+      { enableTracing: false }
     ),
     BrowserModule,
     ClarityModule
