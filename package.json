@@ -25,7 +25,9 @@
     "@clr/icons": "^0.11.8",
     "@clr/ui": "^0.11.8",
     "@webcomponents/custom-elements": "^1.0.0",
+    "bson": "^2.0.4",
     "core-js": "^2.4.1",
+    "deeplearn": "^0.5.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
   },
@@ -33,6 +35,7 @@
     "@angular/cli": "~1.7.3",
     "@angular/compiler-cli": "^5.2.0",
     "@angular/language-service": "^5.2.0",
+    "@types/bson": "^1.0.7",
     "@types/jasmine": "~2.8.3",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
