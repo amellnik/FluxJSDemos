@@ -15,5 +15,3 @@ let model = (function () {
 flux.fetchWeights("model.bson").then((function (ws) {
   return model.weights = ws;
 }));
-
-export model
