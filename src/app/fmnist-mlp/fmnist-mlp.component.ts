@@ -12,12 +12,24 @@ import * as flux from '../../assets/flux'
 })
 export class FmnistMlpComponent implements OnInit {
 
+  images: any; // Is there really not a Tensor type?
+  labels: any;
+
   constructor() { }
 
   ngOnInit() {
+
+    // Async load the weights into the model
     flux.fetchWeights('../../assets/fmnist-mlp/mlp.bson').then(ws => {
       this.model['weights'] = ws;
       this.test();
+    });
+
+    // Async load 100 test images
+    flux.fetchBlob('../../assets/fmnist-mlp/test_images.bson').then(data => {
+      console.log(data)
+      this.images = data['images'].reshape([784, 100]);
+      this.labels = data['labels'];
     });
   }
 
@@ -43,7 +55,7 @@ export class FmnistMlpComponent implements OnInit {
     let aj = new Array(784).fill(0).map(x => Math.random());
     let at = dl.tensor1d(aj);
     let res = this.model(at);
-    res.print();
+    console.log(res.dataSync())
   }
 
 

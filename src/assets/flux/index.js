@@ -36,12 +36,22 @@ function readFloat32(buf) {
   return data;
 }
 
+function readInt32(buf) {
+  let view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
+  let data = new Int32Array(view.byteLength/4);
+  for (let i = 0; i < data.length; i++) {
+    data[i] = view.getInt32(i*4, true);
+  }
+  return data;
+}
+
 function toTensor_(spec) {
   let type = spec.type.name;
   type = type[type.length-1];
   if (type == 'Float32') spec.data = readFloat32(spec.data.buffer);
+  else if (type == 'Int32') spec.data = readInt32(spec.data.buffer);
   else throw `Array type ${spec.type.name} not supported.`;
-  let array = dl.tensor(spec.data, spec.size.reverse());
+  let array = dl.tensor(spec.data, spec.size.reverse(), type.toLowerCase());
   if (spec.size.length > 1) array = array.transpose();
   return array
 }
