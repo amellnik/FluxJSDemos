@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClarityModule } from "@clr/angular";
+// import { ClarityIcons } from '@clr/icons';
 import { BSON } from "bson";
 
 
@@ -37,4 +38,6 @@ const appRoutes: Routes = [
   providers: [ArraysService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() { }
+}
