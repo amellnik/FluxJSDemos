@@ -15,7 +15,10 @@ export class FmnistMlpComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    flux.fetchWeights('../../assets/fmnist-mlp/mlp.bson').then(ws => this.model['weights'] = ws);
+    flux.fetchWeights('../../assets/fmnist-mlp/mlp.bson').then(ws => {
+      this.model['weights'] = ws;
+      this.test();
+    });
   }
 
   model = (function () {
@@ -35,7 +38,12 @@ export class FmnistMlpComponent implements OnInit {
 
 
   test() {
-
+    // Make a random input image and then output the results from the model
+    // Step 1, make a 784-element js array with values between 0 and 1
+    let aj = new Array(784).fill(0).map(x => Math.random());
+    let at = dl.tensor1d(aj);
+    let res = this.model(at);
+    res.print();
   }
 
 
