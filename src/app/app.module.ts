@@ -10,6 +10,8 @@ import { HomeComponent } from './home/home.component';
 import { FmnistMlpComponent } from './fmnist-mlp/fmnist-mlp.component';
 import { TrivialComponent } from './trivial/trivial.component';
 
+import { ArraysService } from './util/arrays.service';
+
 const appRoutes: Routes = [
   { path: 'trivial', component: TrivialComponent },
   { path: 'fmnist-mlp', component: FmnistMlpComponent },
@@ -32,7 +34,7 @@ const appRoutes: Routes = [
     BrowserModule,
     ClarityModule
   ],
-  providers: [],
+  providers: [ArraysService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
