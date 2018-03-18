@@ -4,7 +4,7 @@ import * as dl from 'deeplearn';
 import * as BSON from 'bson';
 import * as flux from '../../assets/flux'
 
-import  '../../assets/trivial/index.js'
+// import  '../../assets/trivial/index.js'
 
 
 @Component({

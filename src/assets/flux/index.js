@@ -1,4 +1,5 @@
 import * as BSON from 'bson';
+import * as dl from 'deeplearn';
 
 let Buffer = new BSON().serialize({}).constructor
 
@@ -29,7 +30,7 @@ async function fetchData(url) {
 function readFloat32(buf) {
   let view = new DataView(buf.buffer, buf.byteOffset, buf.byteLength);
   let data = new Float32Array(view.byteLength/4);
-  for (i = 0; i < data.length; i++) {
+  for (let i = 0; i < data.length; i++) {
     data[i] = view.getFloat32(i*4, true);
   }
   return data;
@@ -50,7 +51,7 @@ function convertArrays_(data) {
   if (data.tag == "array") {
     return toTensor_(data);
   } else {
-    for (k of Object.keys(data)) {
+    for (let k of Object.keys(data)) {
       data[k] = convertArrays_(data[k])
     }
   }
@@ -58,12 +59,12 @@ function convertArrays_(data) {
 }
 
 async function fetchBlob(url) {
-  data = await fetchData(url);
+  let data = await fetchData(url);
   return convertArrays_(data)
 }
 
 async function fetchWeights(url) {
-  ws = await fetchBlob(url);
+  let ws = await fetchBlob(url);
   return ws.weights;
 }
 
