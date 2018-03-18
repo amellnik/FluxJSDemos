@@ -19,23 +19,23 @@ export class FmnistMlpComponent implements OnInit {
   images: any; // Is there really not a Tensor type?
   labels: any;
   n_images = 100;
+  categories = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle Boot'];
 
   constructor(
     private arrays: ArraysService
   ) { }
 
   ngOnInit() {
+    // This currently has a race condition
 
     // Async load the weights into the model
     flux.fetchWeights('../../assets/fmnist-mlp/mlp.bson').then(ws => {
       this.model['weights'] = ws;
-      this.test();
+      // this.test();
     });
 
     // Async load 100 test images
     flux.fetchBlob('../../assets/fmnist-mlp/test_images.bson').then(data => {
-      console.log(data)
-      // this.images = data['images'].reshape([784, 100]);
       this.images = data['images'].reshape([100, 784]);
       this.labels = data['labels'];
       this.selectRandomImage();
@@ -57,23 +57,16 @@ export class FmnistMlpComponent implements OnInit {
     return model;
   })();
 
-
-  test() {
-    // Make a random input image and then output the results from the model
-    // Step 1, make a 784-element js array with values between 0 and 1
-    // const aj = new Array(784).fill(0).map(x => Math.random());
-    // const at = dl.tensor1d(aj);
-    // const res = this.model(at);
-    // console.log(res.dataSync())
-  }
-
-
   selectRandomImage() {
     let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
-    console.log(this.images)
+
+    // Get the selected image as a js array of arrays
     const long = this.images.slice([i, 0], [1, 784]);
     let aj = long.dataSync();
     let square = this.arrays.widen(aj, 28, 28);
+
+    // Get the correct label
+    let label = this.categories[this.labels.slice([i],[1]).dataSync()[0]];
 
     // Now plot the image
     let data = [{
@@ -84,7 +77,7 @@ export class FmnistMlpComponent implements OnInit {
       reversescale: true
     }];
     let layout = {
-      title: "Image #" + i,
+      title: "#" + i + " - " + label,
       xaxis: {
         autorange: true,
         showgrid: false,
@@ -112,13 +105,14 @@ export class FmnistMlpComponent implements OnInit {
     let preds = res.dataSync();
 
     let pdata = [{
-      x: ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat', 'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle Boot'],
+      x: this.categories,
       y: preds,
       type: 'bar'
     }];
     let playout = {
       yaxis: {
-        title: 'Likelihood'
+        title: 'Likelihood',
+        range: [0, 1]
       }
     }
     Plotly.newPlot('probs-plot', pdata, playout);

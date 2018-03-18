@@ -1,46 +1,38 @@
 <h3>Multilayer Perceptron with Fashion-MNIST</h3>
 <p>
-  This page demonstrates a trained <a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">multilayer perceptron</a> model for the <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion-MNIST</a> dataset. The image below is one of the test images from the set, and the plot shows the model's softmax output for that image with the correct class highlighted.  Click the button to run the model on a different test image.
+  This page demonstrates a trained <a href="https://en.wikipedia.org/wiki/Multilayer_perceptron">multilayer perceptron</a> model for the <a href="https://github.com/zalandoresearch/fashion-mnist">Fashion-MNIST</a> dataset. The image below is one of the test images from the set, and the plot shows the model's softmax output for that image.
 </p>
 <div class="row">
   <div class="col-xs-6">
     <div class="card">
-      <!-- <div class="card-header">
-        Header
-      </div> -->
+      <div class="card-header">
+        Input image
+      </div>
       <div class="card-block">
         <div id="img-plot"></div>
-          <!-- <div class="card-title">
-            Block
-          </div>
-          <div class="card-text">
+          <!-- <div class="card-text">
             ...
           </div> -->
       </div>
-      <div class="card-footer">
+      <!-- <div class="card-footer">
         <button (click)="selectRandomImage()" class="btn btn-sm btn-link">New image</button>
-      </div>
+      </div> -->
     </div>
 
   </div>
   <div class="col-xs-6">
     <div class="card">
-      <!-- <div class="card-header">
-        Header
-      </div> -->
+      <div class="card-header">
+        Output predictions
+      </div>
       <div class="card-block">
         <div id="probs-plot"></div>
-          <!-- <div class="card-title">
-            Block
-          </div>
-          <div class="card-text">
-            ...
-          </div> -->
       </div>
-      <!-- <div class="card-footer">
-        <button class="btn btn-sm btn-link">Footer Action 1</button>
-        <button class="btn btn-sm btn-link">Footer Action 2</button>
-      </div> -->
     </div>
+  </div>
+</div>
+<div class="row" style="padding-top: 3%">
+  <div class="col-xs-12">
+    <button (click)="selectRandomImage()" class="btn btn-outline">New Image</button>
   </div>
 </div>
