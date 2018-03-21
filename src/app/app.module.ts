@@ -12,10 +12,12 @@ import { FmnistMlpComponent } from './fmnist-mlp/fmnist-mlp.component';
 import { TrivialComponent } from './trivial/trivial.component';
 
 import { ArraysService } from './util/arrays.service';
+import { CharRnnComponent } from './char-rnn/char-rnn.component';
 
 const appRoutes: Routes = [
   { path: 'trivial', component: TrivialComponent },
   { path: 'fmnist-mlp', component: FmnistMlpComponent },
+  { path: 'char-rnn', component: CharRnnComponent },
   { path: '**', component: HomeComponent }
 ];
 
@@ -25,7 +27,8 @@ const appRoutes: Routes = [
     AppComponent,
     HomeComponent,
     FmnistMlpComponent,
-    TrivialComponent
+    TrivialComponent,
+    CharRnnComponent
   ],
   imports: [
     RouterModule.forRoot(

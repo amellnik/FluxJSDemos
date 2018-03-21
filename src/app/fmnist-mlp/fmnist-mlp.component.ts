@@ -29,13 +29,13 @@ export class FmnistMlpComponent implements OnInit {
     // This currently has a race condition
 
     // Async load the weights into the model
-    flux.fetchWeights('../../assets/fmnist-mlp/mlp.bson').then(ws => {
+    flux.fetchWeights('/assets/fmnist-mlp/mlp.bson').then(ws => {
       this.model['weights'] = ws;
       // this.test();
     });
 
     // Async load 100 test images
-    flux.fetchBlob('../../assets/fmnist-mlp/test_images.bson').then(data => {
+    flux.fetchBlob('/assets/fmnist-mlp/test_images.bson').then(data => {
       this.images = data['images'].reshape([100, 784]);
       this.labels = data['labels'];
       this.selectRandomImage();
