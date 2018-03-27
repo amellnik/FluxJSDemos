@@ -13,10 +13,13 @@ import { TrivialComponent } from './trivial/trivial.component';
 
 import { ArraysService } from './util/arrays.service';
 import { CharRnnComponent } from './char-rnn/char-rnn.component';
+import { AutoencoderComponent } from './autoencoder/autoencoder.component';
+import { VaeComponent } from './vae/vae.component';
 
 const appRoutes: Routes = [
   { path: 'trivial', component: TrivialComponent },
   { path: 'fmnist-mlp', component: FmnistMlpComponent },
+  { path: 'autoencoder', component: AutoencoderComponent },
   { path: 'char-rnn', component: CharRnnComponent },
   { path: '**', component: HomeComponent }
 ];
@@ -28,7 +31,9 @@ const appRoutes: Routes = [
     HomeComponent,
     FmnistMlpComponent,
     TrivialComponent,
-    CharRnnComponent
+    CharRnnComponent,
+    AutoencoderComponent,
+    VaeComponent
   ],
   imports: [
     RouterModule.forRoot(

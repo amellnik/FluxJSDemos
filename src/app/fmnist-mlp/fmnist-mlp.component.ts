@@ -6,7 +6,7 @@ import { Config, Data, Layout } from "plotly.js/dist/plotly.js";
 
 import * as dl from 'deeplearn';
 import * as BSON from 'bson';
-import * as flux from '../../assets/flux'
+import * as flux from '../../assets/flux';
 
 
 @Component({
