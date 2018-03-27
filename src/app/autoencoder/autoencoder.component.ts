@@ -8,6 +8,7 @@ import * as dl from 'deeplearn';
 import * as BSON from 'bson';
 import * as flux from '../../assets/flux';
 
+
 @Component({
   selector: 'app-autoencoder',
   templateUrl: './autoencoder.component.html',
@@ -15,18 +16,36 @@ import * as flux from '../../assets/flux';
 })
 export class AutoencoderComponent implements OnInit {
 
-  images: any;
+  fmnist: any;
+  mnist: any;
+  n_images = 100;
+  encoding: any;
+  active_long: any;
+  active_img: number[][];
 
-  constructor() { }
+  constructor(
+    private arrays: ArraysService
+  ) { }
 
   ngOnInit() {
-    flux.fetchWeights("/assets/autoencoder/encoder.bson").then((function (ws) {
+    flux.fetchWeights("/assets/autoencoder/encoder.bson").then(ws => {
       return this.encoder['weights'] = ws;
-    }));
+    });
 
-    flux.fetchWeights("/assets/autoencoder/decoder.bson").then((function (ws) {
+    flux.fetchWeights("/assets/autoencoder/decoder.bson").then(ws => {
       return this.decoder['weights'] = ws;
-    }));
+    });
+
+    // Async load images
+    flux.fetchBlob('/assets/fmnist-mlp/test_images.bson').then(data => {
+      this.fmnist = data['images'].reshape([100, 784]);
+      this.fmnistImage();
+    });
+
+    // Async load 100 test images
+    flux.fetchBlob('/assets/autoencoder/mnist_images.bson').then(data => {
+      this.mnist = data['images'].reshape([100, 784]);
+    });
   }
 
   encoder = (function () {
@@ -58,5 +77,63 @@ export class AutoencoderComponent implements OnInit {
     decoder['weights'] = [];
     return decoder;
   })();
+
+  fmnistImage() {
+    let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
+
+    // Get the selected image as a js array of arrays
+    this.active_long = this.fmnist.slice([i, 0], [1, 784]);
+    let aj = this.active_long.dataSync();
+    this.active_img = this.arrays.widen(aj, 28, 28);
+    this.convert();
+  }
+
+  mnistImage() {
+    let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
+
+    // Get the selected image as a js array of arrays
+    this.active_long = this.mnist.slice([i, 0], [1, 784]);
+    let aj = this.active_long.dataSync();
+    this.active_img = this.arrays.widen(aj, 28, 28);
+  }
+
+  convert() {
+    // Now plot the image
+    let data = [{
+      z: this.active_img,
+      type: 'heatmap',
+      colorscale: 'Greys',
+      showscale: false,
+      reversescale: true
+    }];
+    let layout = {
+      xaxis: {
+        autorange: true,
+        showgrid: false,
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: '',
+        showticklabels: false
+      },
+      yaxis: {
+        autorange: 'reversed',
+        showgrid: false,
+        zeroline: false,
+        showline: false,
+        autotick: true,
+        ticks: '',
+        showticklabels: false
+      }
+    };
+    // Generates a warning -- see https://github.com/plotly/plotly.js/issues/2466
+    Plotly.newPlot('input-plot', data, layout);
+
+    // Now apply the model and plot the results
+    console.log(this.active_long);
+    console.log(this.encoder['weights']);
+    // const res = this.encoder(this.active_long.squeeze());
+    // this.encoding = res.dataSync();
+  }
 
 }
