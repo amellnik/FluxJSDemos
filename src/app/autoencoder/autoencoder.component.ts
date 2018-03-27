@@ -22,30 +22,26 @@ export class AutoencoderComponent implements OnInit {
   encoding: any;
   active_long: any;
   active_img: number[][];
+  active_decoded: number[][];
 
   constructor(
     private arrays: ArraysService
   ) { }
 
   ngOnInit() {
-    flux.fetchWeights("/assets/autoencoder/encoder.bson").then(ws => {
-      return this.encoder['weights'] = ws;
-    });
-
-    flux.fetchWeights("/assets/autoencoder/decoder.bson").then(ws => {
-      return this.decoder['weights'] = ws;
-    });
-
-    // Async load images
-    flux.fetchBlob('/assets/fmnist-mlp/test_images.bson').then(data => {
-      this.fmnist = data['images'].reshape([100, 784]);
+    // Wait for all the weights and test images to load before doing anything
+    Promise.all([
+      flux.fetchWeights("/assets/autoencoder/encoder.bson"),
+      flux.fetchWeights("/assets/autoencoder/decoder.bson"),
+      flux.fetchBlob('/assets/fmnist-mlp/test_images.bson'),
+      flux.fetchBlob('/assets/autoencoder/mnist_images.bson')
+    ]).then(res => {
+      this.encoder['weights'] = res[0];
+      this.decoder['weights'] = res[1];
+      this.fmnist = res[2]['images'].reshape([100, 784]);
+      this.mnist = res[3]['images'].reshape([100, 784]);
       this.fmnistImage();
-    });
-
-    // Async load 100 test images
-    flux.fetchBlob('/assets/autoencoder/mnist_images.bson').then(data => {
-      this.mnist = data['images'].reshape([100, 784]);
-    });
+    })
   }
 
   encoder = (function () {
@@ -79,6 +75,7 @@ export class AutoencoderComponent implements OnInit {
   })();
 
   fmnistImage() {
+    console.log("New fmnist image")
     let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
 
     // Get the selected image as a js array of arrays
@@ -89,17 +86,19 @@ export class AutoencoderComponent implements OnInit {
   }
 
   mnistImage() {
+    console.log("New mnist image")
     let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
 
     // Get the selected image as a js array of arrays
     this.active_long = this.mnist.slice([i, 0], [1, 784]);
     let aj = this.active_long.dataSync();
     this.active_img = this.arrays.widen(aj, 28, 28);
+    this.convert();
   }
 
   convert() {
     // Now plot the image
-    let data = [{
+    let data:any = [{
       z: this.active_img,
       type: 'heatmap',
       colorscale: 'Greys',
@@ -124,16 +123,36 @@ export class AutoencoderComponent implements OnInit {
         autotick: true,
         ticks: '',
         showticklabels: false
+      },
+      margin: {
+        l: 0,
+        r: 0,
+        b: 0,
+        t: 0
       }
     };
     // Generates a warning -- see https://github.com/plotly/plotly.js/issues/2466
-    Plotly.newPlot('input-plot', data, layout);
+    Plotly.newPlot('input-plot', data, layout, {displayModeBar: false});
 
     // Now apply the model and plot the results
-    console.log(this.active_long);
-    console.log(this.encoder['weights']);
-    // const res = this.encoder(this.active_long.squeeze());
-    // this.encoding = res.dataSync();
+    const res = this.encoder(this.active_long.squeeze());
+    this.encoding = res.dataSync();
+    let encoding_img = this.arrays.widen(this.encoding, 2, 16);
+
+    // Our layout is all set up, we can modify the data slightly and replot
+    data[0]['z'] = encoding_img;
+    data[0]['colorscale'] = "YIGnBu"
+    Plotly.newPlot('encoding-plot', data, layout, {displayModeBar: false});
+
+    // Apply the decoder to get the resulting image
+    const res2 = this.decoder(res);
+    this.active_decoded = this.arrays.widen(res2.dataSync(), 28, 28)
+
+    // Our layout is all set up, we can modify the data slightly and replot
+    data[0]['z'] = this.active_decoded;
+    data[0]['colorscale'] = "Greys";
+    Plotly.newPlot('output-plot', data, layout, {displayModeBar: false});
+
   }
 
 }
