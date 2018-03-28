@@ -26,20 +26,16 @@ export class FmnistMlpComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // This currently has a race condition
-
-    // Async load the weights into the model
-    flux.fetchWeights('/assets/fmnist-mlp/mlp.bson').then(ws => {
-      this.model['weights'] = ws;
-      // this.test();
-    });
-
-    // Async load 100 test images
-    flux.fetchBlob('/assets/fmnist-mlp/test_images.bson').then(data => {
-      this.images = data['images'].reshape([100, 784]);
-      this.labels = data['labels'];
+    // Async load weights and images
+    Promise.all([
+      flux.fetchWeights('/assets/fmnist-mlp/mlp.bson'),
+      flux.fetchBlob('/assets/fmnist-mlp/test_images.bson')
+    ]).then(results => {
+      this.model['weights'] = results[0];
+      this.images = results[1]['images'].reshape([100, 784]);
+      this.labels = results[1]['labels'];
       this.selectRandomImage();
-    });
+    })
   }
 
   model = (function () {
