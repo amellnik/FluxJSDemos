@@ -75,7 +75,6 @@ export class AutoencoderComponent implements OnInit {
   })();
 
   fmnistImage() {
-    console.log("New fmnist image")
     let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
 
     // Get the selected image as a js array of arrays
@@ -86,7 +85,6 @@ export class AutoencoderComponent implements OnInit {
   }
 
   mnistImage() {
-    console.log("New mnist image")
     let i = Math.floor(Math.random() * Math.floor(this.n_images-1));
 
     // Get the selected image as a js array of arrays
@@ -103,7 +101,9 @@ export class AutoencoderComponent implements OnInit {
       type: 'heatmap',
       colorscale: 'Greys',
       showscale: false,
-      reversescale: true
+      reversescale: true,
+      zmin: 0,
+      zmax: 1
     }];
     let layout = {
       xaxis: {
@@ -139,10 +139,7 @@ export class AutoencoderComponent implements OnInit {
     this.encoding = res.dataSync();
     let encoding_img = this.arrays.widen(this.encoding, 2, 16);
 
-    // Our layout is all set up, we can modify the data slightly and replot
-    data[0]['z'] = encoding_img;
-    data[0]['colorscale'] = "YIGnBu"
-    Plotly.newPlot('encoding-plot', data, layout, {displayModeBar: false});
+
 
     // Apply the decoder to get the resulting image
     const res2 = this.decoder(res);
@@ -150,8 +147,14 @@ export class AutoencoderComponent implements OnInit {
 
     // Our layout is all set up, we can modify the data slightly and replot
     data[0]['z'] = this.active_decoded;
-    data[0]['colorscale'] = "Greys";
     Plotly.newPlot('output-plot', data, layout, {displayModeBar: false});
+
+    // Plot the encoding last since it uses slightly different settings
+    data[0]['z'] = encoding_img;
+    data[0]['colorscale'] = "YIGnBu";
+    data[0]['zmin'] = null;
+    data[0]['zmax'] = null;
+    Plotly.newPlot('encoding-plot', data, layout, {displayModeBar: false});
 
   }
 
