@@ -12,9 +12,9 @@ import { FmnistMlpComponent } from './fmnist-mlp/fmnist-mlp.component';
 import { TrivialComponent } from './trivial/trivial.component';
 
 import { ArraysService } from './util/arrays.service';
-// import { CharRnnComponent } from './char-rnn/char-rnn.component';
+import { CharRnnComponent } from './char-rnn/char-rnn.component';
 import { AutoencoderComponent } from './autoencoder/autoencoder.component';
-// import { VaeComponent } from './vae/vae.component';
+import { VaeComponent } from './vae/vae.component';
 
 const appRoutes: Routes = [
   { path: 'trivial', component: TrivialComponent },
@@ -31,9 +31,9 @@ const appRoutes: Routes = [
     HomeComponent,
     FmnistMlpComponent,
     TrivialComponent,
-    // CharRnnComponent,
-    AutoencoderComponent
-    // VaeComponent
+    CharRnnComponent,
+    AutoencoderComponent,
+    VaeComponent
   ],
   imports: [
     RouterModule.forRoot(
