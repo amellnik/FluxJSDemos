@@ -1,4 +1,6 @@
 .ipynb_checkpoints
+src/assets/gan
+src/assets/vae
 
 # compiled output
 /dist
