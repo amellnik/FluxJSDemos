@@ -1,5 +1,6 @@
 import * as BSON from 'bson';
-import * as dl from 'deeplearn';
+// import * as dl from 'deeplearn';
+
 
 let Buffer = new BSON().serialize({}).constructor
 
@@ -51,7 +52,7 @@ function toTensor_(spec) {
   if (type == 'Float32') spec.data = readFloat32(spec.data.buffer);
   else if (type == 'Int32') spec.data = readInt32(spec.data.buffer);
   else throw `Array type ${spec.type.name} not supported.`;
-  let array = dl.tensor(spec.data, spec.size.reverse(), type.toLowerCase());
+  let array = tf.tensor(spec.data, spec.size.reverse(), type.toLowerCase());
   if (spec.size.length > 1) array = array.transpose();
   return array
 }

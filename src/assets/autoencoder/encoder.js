@@ -1,13 +1,13 @@
 let model = (function () {
-  let math = dl.ENV.math;
-  function caterpillar(dogfish) {
-    return math.relu(math.add(math.matrixTimesVector(model.weights[0], dogfish), model.weights[1]));
+  let math = tf;
+  function bat(ant) {
+    return math.relu(math.add(math.matrixTimesVector(model.weights[0], ant), model.weights[1]));
   };
-  function caribou(badger) {
-    return math.relu(math.add(math.matrixTimesVector(model.weights[2], badger), model.weights[3]));
+  function chicken(barracuda) {
+    return math.relu(math.add(math.matrixTimesVector(model.weights[2], barracuda), model.weights[3]));
   };
-  function model(loris) {
-    return caterpillar(caribou(loris));
+  function model(cobra) {
+    return bat(chicken(cobra));
   };
   model.weights = [];
   return model;

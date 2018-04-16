@@ -1,13 +1,13 @@
 let model = (function () {
-  let math = dl.ENV.math;
-  function dinosaur(hyena) {
-    return math.add(math.matrixTimesVector(model.weights[0], hyena), model.weights[1]);
+  let math = tf;
+  function alligator(coati) {
+    return math.add(math.matrixTimesVector(model.weights[0], coati), model.weights[1]);
   };
-  function locust(raven) {
-    return math.relu(math.add(math.matrixTimesVector(model.weights[2], raven), model.weights[3]));
+  function cobra(eland) {
+    return math.relu(math.add(math.matrixTimesVector(model.weights[2], eland), model.weights[3]));
   };
-  function model(lapwing) {
-    return math.softmax(dinosaur(locust(lapwing)));
+  function model(jellyfish) {
+    return math.softmax(alligator(cobra(jellyfish)));
   };
   model.weights = [];
   return model;
