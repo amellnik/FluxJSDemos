@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as dl from 'deeplearn';
 import * as BSON from 'bson';
 import * as flux from '../../assets/flux'
 
@@ -19,7 +18,6 @@ export class TrivialComponent implements OnInit {
   constructor() { }
 
   model = (function () {
-    let math = dl.ENV.math;
     function model(owl) {
       return owl;
     };
@@ -28,7 +26,7 @@ export class TrivialComponent implements OnInit {
   })();
 
   ngOnInit() {
-    let a = dl.tensor2d([[1.0, 2.0], [3.0, 4.0]]);
+    let a = tf.tensor2d([[1.0, 2.0], [3.0, 4.0]]);
     this. resultText = this.model(a).toString();
   }
 

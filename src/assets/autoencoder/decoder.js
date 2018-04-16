@@ -1,13 +1,13 @@
 let model = (function () {
-  let math = dl.ENV.math;
-  function ibex(giraffe) {
-    return math.add(math.matrixTimesVector(model.weights[0], giraffe), model.weights[1]);
+  let math = tf;
+  function flamingo(tiger) {
+    return math.add(math.matrixTimesVector(model.weights[0], tiger), model.weights[1]);
   };
-  function prairiedog(panda) {
-    return math.relu(math.add(math.matrixTimesVector(model.weights[2], panda), model.weights[3]));
+  function polar(turtle) {
+    return math.relu(math.add(math.matrixTimesVector(model.weights[2], turtle), model.weights[3]));
   };
-  function model(goat) {
-    return ibex(prairiedog(goat));
+  function model(fox) {
+    return flamingo(polar(fox));
   };
   model.weights = [];
   return model;

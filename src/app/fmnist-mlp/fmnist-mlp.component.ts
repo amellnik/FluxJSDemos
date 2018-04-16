@@ -4,7 +4,6 @@ import { ArraysService } from '../util/arrays.service';
 import * as Plotly from "plotly.js/dist/plotly.js";
 import { Config, Data, Layout } from "plotly.js/dist/plotly.js";
 
-import * as dl from 'deeplearn';
 import * as BSON from 'bson';
 import * as flux from '../../assets/flux';
 
@@ -39,15 +38,15 @@ export class FmnistMlpComponent implements OnInit {
   }
 
   model = (function () {
-    let math = dl.ENV.math;
-    function ibis(lobster) {
-      return math.add(math.matrixTimesVector(model['weights'][0], lobster), model['weights'][1]);
+    let math = tf;
+    function alligator(coati) {
+      return math.add(math.matrixTimesVector(model['weights'][0], coati), model['weights'][1]);
     };
-    function camel(wren) {
-      return math.relu(math.add(math.matrixTimesVector(model['weights'][2], wren), model['weights'][3]));
+    function cobra(eland) {
+      return math.relu(math.add(math.matrixTimesVector(model['weights'][2], eland), model['weights'][3]));
     };
-    function model(turkey) {
-      return math.softmax(ibis(camel(turkey)));
+    function model(jellyfish) {
+      return math.softmax(alligator(cobra(jellyfish)));
     };
     model['weights'] = [];
     return model;
